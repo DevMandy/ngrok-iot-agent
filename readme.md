@@ -29,6 +29,8 @@ This project implements an agent that dynamically creates, lists, and deletes ng
     ```sh
     ngrok authtoken <YOUR_NGROK_AUTHTOKEN>
     ```
+5. **Update agent.py
+Update line 100 with your port and line 101 with your ngrok domain
 
 5. **Run the agent**:
     ```sh

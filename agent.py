@@ -26,9 +26,11 @@ class TunnelManager:
         listener = session.http_endpoint()
         if domain:
             listener = listener.domain(domain)
-        listener = await listener.listen()
-        listener.forward(forwards_to)
-        url = listener.url()
+        with open('policy.json') as f:
+            policy = json.load(f)
+            listener = await listener.policy(f).listen()
+            listener.forward(forwards_to)
+            url = listener.url()
         self.tunnels[url] = {"protocol": protocol, "forwards_to": forwards_to, "domain": domain}
         self.save_tunnels()
         return url
@@ -96,7 +98,7 @@ def delete_tunnel(url_part: str):
 
 async def setup_listener():
     listen = "localhost:8000"
-    domain = "shub-reserved.ngrok.io"  # Replace with your reserved domain ****IMPORTANT****
+    domain = "mandy.ngrok.dev"  # Replace with your reserved domain ****IMPORTANT****
     session = await ngrok.SessionBuilder().authtoken_from_env().connect()
     listener = await session.http_endpoint().domain(domain).listen()
     url = listener.url()
