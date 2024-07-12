@@ -27,8 +27,8 @@ class TunnelManager:
         if domain:
             listener = listener.domain(domain)
         with open('policy.json') as f:
-            policy = json.load(f)
-            listener = await listener.policy(f).listen()
+            policyJson = json.load(f)
+            listener = await listener.policy(json.dumps(policyJson)).listen()
             listener.forward(forwards_to)
             url = listener.url()
         self.tunnels[url] = {"protocol": protocol, "forwards_to": forwards_to, "domain": domain}
